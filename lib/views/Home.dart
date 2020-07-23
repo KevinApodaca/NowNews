@@ -24,34 +24,46 @@ class _HomeState extends State<Home> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Now"),
+            Text("Now", style: TextStyle(color: Colors.white)),
             Text(
               "News",
-              style: TextStyle(color: Colors.blue),
+              style: TextStyle(color: Colors.lightBlueAccent),
             )
           ],
         ),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.info_outline,
+              ))
+        ],
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              height: 70,
-              child: ListView.builder(
-                  itemCount: categories.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return CategoryTile(
-                      imgUrl: categories[index].imgUrl,
-                      categoryName: categories[index].categoryName,
-                    );
-                  }),
-            )
-          ],
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: 18,
+        ),
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                height: 70,
+                child: ListView.builder(
+                    itemCount: categories.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return CategoryTile(
+                        imgUrl: categories[index].imgUrl,
+                        categoryName: categories[index].categoryName,
+                      );
+                    }),
+              )
+            ],
+          ),
         ),
       ),
     );

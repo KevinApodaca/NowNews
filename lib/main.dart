@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Now News',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Colors.indigo,
       ),
       home: Home(),
     );
