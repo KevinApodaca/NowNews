@@ -1,4 +1,6 @@
+import 'package:NowNews/helper/News.dart';
 import 'package:NowNews/helper/data.dart';
+import 'package:NowNews/models/ArticleModel.dart';
 import 'package:NowNews/models/CategoryModel.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +11,25 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<CategoryModel> categories = new List<CategoryModel>();
+  List<ArticleModel> articles = new List<ArticleModel>();
+
+  bool _loading = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     categories = getCategories();
+    getNews();
+  }
+
+  getNews() async {
+    News newsClass = News();
+    await newsClass.getNews();
+    articles = newsClass.news;
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
@@ -33,7 +48,9 @@ class _HomeState extends State<Home> {
         ),
         actions: <Widget>[
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                print("Info clicked");
+              },
               icon: const Icon(
                 Icons.info_outline,
               ))
@@ -41,31 +58,52 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: 18,
-        ),
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                height: 70,
-                child: ListView.builder(
-                    itemCount: categories.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return CategoryTile(
-                        imgUrl: categories[index].imgUrl,
-                        categoryName: categories[index].categoryName,
-                      );
-                    }),
-              )
-            ],
-          ),
-        ),
-      ),
+      body: _loading
+          ? Center(
+              child: Container(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : Padding(
+              padding: EdgeInsets.only(
+                top: 18,
+              ),
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    /* Showing Categories */
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      height: 70,
+                      child: ListView.builder(
+                          itemCount: categories.length,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return CategoryTile(
+                              imgUrl: categories[index].imgUrl,
+                              categoryName: categories[index].categoryName,
+                            );
+                          }),
+                    ),
+                    /* Showing News Articles */
+                    Container(
+                      child: ListView.builder(
+                        itemCount: articles.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return BlogTile(
+                            imgUrl: articles[index].urlToImage,
+                            title: articles[index].title,
+                            desc: articles[index].desc,
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
@@ -109,6 +147,20 @@ class CategoryTile extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BlogTile extends StatelessWidget {
+  final String imgUrl, title, desc;
+  BlogTile({@required this.imgUrl, this.title, this.desc});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[Image.network(imgUrl), Text(title), Text(desc)],
       ),
     );
   }
