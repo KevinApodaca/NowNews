@@ -59,28 +59,23 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: _loading
-          ? Center(
-              child: Container(
+      body: SafeArea(
+        child: _loading
+            ? Center(
                 child: CircularProgressIndicator(),
-              ),
-            )
-          : Padding(
-              padding: EdgeInsets.only(
-                top: 18,
-              ),
-              child: SingleChildScrollView(
+              )
+            : SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     children: <Widget>[
                       /* Showing Categories */
                       Container(
+                        padding: EdgeInsets.only(top: 18),
                         height: 70,
                         child: ListView.builder(
                             itemCount: categories.length,
                             shrinkWrap: true,
-                            physics: ClampingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return CategoryTile(
@@ -95,6 +90,7 @@ class _HomeState extends State<Home> {
                         child: ListView.builder(
                           itemCount: articles.length,
                           shrinkWrap: true,
+                          physics: ClampingScrollPhysics(),
                           itemBuilder: (context, index) {
                             return BlogTile(
                               imgUrl: articles[index].urlToImage,
@@ -108,7 +104,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-            ),
+      ),
     );
   }
 }
@@ -171,6 +167,7 @@ class BlogTile extends StatelessWidget {
               child: Image.network(imgUrl)),
           Text(
             title,
+            textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 17,
                 color: Colors.black87,
@@ -181,6 +178,7 @@ class BlogTile extends StatelessWidget {
           ),
           Text(
             desc,
+            textAlign: TextAlign.start,
             style: TextStyle(color: Colors.black54),
           )
         ],
