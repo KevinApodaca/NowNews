@@ -2,6 +2,8 @@ import 'package:NowNews/helper/News.dart';
 import 'package:NowNews/helper/data.dart';
 import 'package:NowNews/models/ArticleModel.dart';
 import 'package:NowNews/models/CategoryModel.dart';
+import 'package:NowNews/views/ArticleView.dart';
+import 'package:NowNews/views/Categories.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     categories = getCategories();
     getNews();
@@ -96,6 +97,7 @@ class _HomeState extends State<Home> {
                               imgUrl: articles[index].urlToImage,
                               title: articles[index].title,
                               desc: articles[index].desc,
+                              url: articles[index].url,
                             );
                           },
                         ),
@@ -116,7 +118,15 @@ class CategoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Categories(
+                category: categoryName.toString().toLowerCase(),
+              ),
+            ));
+      },
       child: Container(
         margin: EdgeInsets.only(right: 16),
         child: Stack(
@@ -153,35 +163,49 @@ class CategoryTile extends StatelessWidget {
 }
 
 class BlogTile extends StatelessWidget {
-  final String imgUrl, title, desc;
-  BlogTile({@required this.imgUrl, this.title, this.desc});
+  final String imgUrl, title, desc, url;
+  BlogTile(
+      {@required this.imgUrl,
+      @required this.title,
+      @required this.desc,
+      @required this.url});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(bottom: 16),
-      child: Column(
-        children: <Widget>[
-          ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Image.network(imgUrl)),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 17,
-                color: Colors.black87,
-                fontWeight: FontWeight.w500),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            desc,
-            textAlign: TextAlign.start,
-            style: TextStyle(color: Colors.black54),
-          )
-        ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ArticleView(
+                      articleUrl: url,
+                    )));
+      },
+      child: Container(
+        padding: EdgeInsets.only(bottom: 16),
+        child: Column(
+          children: <Widget>[
+            ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.network(imgUrl)),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              desc,
+              textAlign: TextAlign.start,
+              style: TextStyle(color: Colors.black54),
+            )
+          ],
+        ),
       ),
     );
   }
