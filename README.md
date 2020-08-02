@@ -15,7 +15,7 @@
 This news app fetches the latest news using the News API and allows users to read the articles from within the app.
 
 <p align="center">
-  <img src = "Showcase.png" width=700>
+  <img src = "AppShowcase.png" width=700>
 </p>
 
 ## Features
