@@ -1,7 +1,7 @@
 <h1 align="center"> NowNews </h1> <br>
 <p align="center">
-  <a href="https://gitpoint.co/">
-    <img alt="Flutter" title="GitPoint" src="flutter_logo.png" width="450">
+  <a href="https://flutter.dev/">
+    <img alt="Flutter" title="FlutterDev" src="flutter_logo.png" width="450">
   </a>
 </p>
 
